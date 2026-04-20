@@ -24,11 +24,11 @@ services:
           property: url
           suffix: /eureka/
       - key: DATABASE_URL
-        value: jdbc:mysql://YOUR_DB_HOST:3306/user_service_db
+        value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/user_service_db
       - key: DATABASE_USERNAME
-        value: YOUR_DB_USER
+        value: avnadmin
       - key: DATABASE_PASSWORD
-        value: YOUR_DB_PASS
+        value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
@@ -47,11 +47,11 @@ services:
           property: url
           suffix: /eureka/
       - key: DATABASE_URL
-        value: jdbc:mysql://YOUR_DB_HOST:3306/skill_assessment_db
+        value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/skill_assessment_db
       - key: DATABASE_USERNAME
-        value: YOUR_DB_USER
+        value: avnadmin
       - key: DATABASE_PASSWORD
-        value: YOUR_DB_PASS
+        value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
@@ -70,11 +70,11 @@ services:
           property: url
           suffix: /eureka/
       - key: DATABASE_URL
-        value: jdbc:mysql://YOUR_DB_HOST:3306/internship_service_db
+        value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/internship_service_db
       - key: DATABASE_USERNAME
-        value: YOUR_DB_USER
+        value: avnadmin
       - key: DATABASE_PASSWORD
-        value: YOUR_DB_PASS
+        value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
@@ -110,11 +110,11 @@ services:
           property: url
           suffix: /eureka/
       - key: DATABASE_URL
-        value: jdbc:mysql://YOUR_DB_HOST:3306/notification_service_db
+        value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/notification_service_db
       - key: DATABASE_USERNAME
-        value: YOUR_DB_USER
+        value: avnadmin
       - key: DATABASE_PASSWORD
-        value: YOUR_DB_PASS
+        value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
