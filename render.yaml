@@ -7,6 +7,8 @@ services:
     dockerfilePath: ./eureka-server/Dockerfile
     plan: free
     envVars:
+      - key: PORT
+        value: "8761"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: SPRING_PROFILES_ACTIVE
@@ -21,6 +23,8 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
+      - key: PORT
+        value: "8081"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
@@ -48,6 +52,8 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
+      - key: PORT
+        value: "8082"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
@@ -75,6 +81,8 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
+      - key: PORT
+        value: "8083"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
@@ -102,6 +110,8 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
+      - key: PORT
+        value: "8084"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
@@ -123,6 +133,8 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
+      - key: PORT
+        value: "8085"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
@@ -150,6 +162,8 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
+      - key: PORT
+        value: "8080"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
