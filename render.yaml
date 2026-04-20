@@ -19,7 +19,7 @@ services:
     dockerContext: ./user-service
     dockerfilePath: ./user-service/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /actuator/health
     envVars:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
@@ -46,7 +46,7 @@ services:
     dockerContext: ./skill-assessment-service
     dockerfilePath: ./skill-assessment-service/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /actuator/health
     envVars:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
@@ -73,7 +73,7 @@ services:
     dockerContext: ./internship-service
     dockerfilePath: ./internship-service/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /actuator/health
     envVars:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
@@ -100,7 +100,7 @@ services:
     dockerContext: ./recommendation-service
     dockerfilePath: ./recommendation-service/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /actuator/health
     envVars:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
@@ -121,7 +121,7 @@ services:
     dockerContext: ./notification-service
     dockerfilePath: ./notification-service/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /actuator/health
     envVars:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
