@@ -17,12 +17,13 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: EUREKA_SERVER_URL
+      - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
           type: web
-          property: url
-          suffix: /eureka/
+          property: hostport
+      - key: EUREKA_SERVER_URL
+        value: http://${EUREKA_HOSTPORT}/eureka/
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/user_service_db
       - key: DATABASE_USERNAME
@@ -40,12 +41,13 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: EUREKA_SERVER_URL
+      - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
           type: web
-          property: url
-          suffix: /eureka/
+          property: hostport
+      - key: EUREKA_SERVER_URL
+        value: http://${EUREKA_HOSTPORT}/eureka/
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/skill_assessment_db
       - key: DATABASE_USERNAME
@@ -63,12 +65,13 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: EUREKA_SERVER_URL
+      - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
           type: web
-          property: url
-          suffix: /eureka/
+          property: hostport
+      - key: EUREKA_SERVER_URL
+        value: http://${EUREKA_HOSTPORT}/eureka/
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/internship_service_db
       - key: DATABASE_USERNAME
@@ -86,12 +89,13 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: EUREKA_SERVER_URL
+      - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
           type: web
-          property: url
-          suffix: /eureka/
+          property: hostport
+      - key: EUREKA_SERVER_URL
+        value: http://${EUREKA_HOSTPORT}/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
@@ -103,12 +107,13 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: EUREKA_SERVER_URL
+      - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
           type: web
-          property: url
-          suffix: /eureka/
+          property: hostport
+      - key: EUREKA_SERVER_URL
+        value: http://${EUREKA_HOSTPORT}/eureka/
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/notification_service_db
       - key: DATABASE_USERNAME
@@ -126,11 +131,12 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
-      - key: EUREKA_SERVER_URL
+      - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
           type: web
-          property: url
-          suffix: /eureka/
+          property: hostport
+      - key: EUREKA_SERVER_URL
+        value: http://${EUREKA_HOSTPORT}/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
