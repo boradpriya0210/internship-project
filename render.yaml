@@ -6,6 +6,8 @@ services:
     dockerContext: ./eureka-server
     plan: free
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
@@ -17,6 +19,8 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
@@ -41,6 +45,8 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
@@ -65,6 +71,8 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
@@ -89,6 +97,8 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
@@ -107,6 +117,8 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
@@ -131,6 +143,8 @@ services:
     plan: free
     healthCheckPath: /health
     envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx256m -Xss512k"
       - key: EUREKA_HOSTPORT
         fromService:
           name: eureka-server
