@@ -148,7 +148,7 @@ services:
     dockerContext: ./api-gateway
     dockerfilePath: ./api-gateway/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /actuator/health
     envVars:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
