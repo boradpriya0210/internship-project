@@ -4,6 +4,7 @@ services:
     name: eureka-server
     env: docker
     dockerContext: ./eureka-server
+    dockerfilePath: ./eureka-server/Dockerfile
     plan: free
     envVars:
       - key: JAVA_TOOL_OPTIONS
@@ -16,6 +17,7 @@ services:
     name: user-service
     env: docker
     dockerContext: ./user-service
+    dockerfilePath: ./user-service/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
@@ -42,6 +44,7 @@ services:
     name: skill-assessment-service
     env: docker
     dockerContext: ./skill-assessment-service
+    dockerfilePath: ./skill-assessment-service/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
@@ -68,6 +71,7 @@ services:
     name: internship-service
     env: docker
     dockerContext: ./internship-service
+    dockerfilePath: ./internship-service/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
@@ -94,6 +98,7 @@ services:
     name: recommendation-service
     env: docker
     dockerContext: ./recommendation-service
+    dockerfilePath: ./recommendation-service/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
@@ -114,6 +119,7 @@ services:
     name: notification-service
     env: docker
     dockerContext: ./notification-service
+    dockerfilePath: ./notification-service/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
@@ -140,6 +146,7 @@ services:
     name: api-gateway
     env: docker
     dockerContext: ./api-gateway
+    dockerfilePath: ./api-gateway/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
