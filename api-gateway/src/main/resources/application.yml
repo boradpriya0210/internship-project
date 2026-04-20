@@ -1,0 +1,94 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      # Enable discovery locator to automatically create routes for services registered with Eureka
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      
+      # Define explicit routes for better control
+      routes:
+        # User Service Routes
+        - id: user-service
+          uri: lb://user-service  # lb = load balanced (via Eureka)
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/users/(?<segment>.*), /$\{segment}
+        
+        # Skill Assessment Service Routes
+        - id: skill-assessment-service
+          uri: lb://skill-assessment-service
+          predicates:
+            - Path=/api/assessments/**
+          filters:
+            - RewritePath=/api/assessments/(?<segment>.*), /$\{segment}
+        
+        # Internship Service Routes
+        - id: internship-service
+          uri: lb://internship-service
+          predicates:
+            - Path=/api/internships/**
+          filters:
+            - RewritePath=/api/internships/(?<segment>.*), /$\{segment}
+        
+        # Recommendation Service Routes
+        - id: recommendation-service
+          uri: lb://recommendation-service
+          predicates:
+            - Path=/api/recommendations/**
+          filters:
+            - RewritePath=/api/recommendations/(?<segment>.*), /$\{segment}
+        
+        # Notification Service Routes
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RewritePath=/api/notifications/(?<segment>.*), /$\{segment}
+      
+      # Global CORS Configuration
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: false
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+# Actuator for Health Monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: INFO
