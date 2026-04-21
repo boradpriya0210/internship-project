@@ -156,8 +156,6 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
-      - key: PORT
-        value: "10000"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
       - key: SPRING_PROFILES_ACTIVE

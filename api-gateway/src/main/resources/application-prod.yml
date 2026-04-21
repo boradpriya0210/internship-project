@@ -4,17 +4,25 @@ server:
 spring:
   application:
     name: api-gateway
+
+  # Fully exclude Eureka auto-configuration to prevent slow startup
+  # This avoids the 90+ second delay caused by Eureka connection attempts
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration
+      - org.springframework.cloud.netflix.eureka.EurekaDiscoveryClientAutoConfiguration
+      - org.springframework.cloud.netflix.eureka.reactive.EurekaReactiveDiscoveryClientAutoConfiguration
+      - org.springframework.cloud.netflix.eureka.config.EurekaDiscoveryClientConfigServiceBootstrapConfiguration
   
   cloud:
     gateway:
-      # DISABLE discovery locator - we use direct URLs on Render, not Eureka
+      # Disable discovery locator - we use direct URLs
       discovery:
         locator:
           enabled: false
       
-      # Routes using DIRECT Render URLs instead of lb:// (Eureka not needed)
+      # Routes using DIRECT Render URLs (no Eureka/lb:// needed)
       routes:
-        # User Service
         - id: user-service
           uri: ${USER_SERVICE_URL:https://user-service-9jg7.onrender.com}
           predicates:
@@ -22,7 +30,6 @@ spring:
           filters:
             - RewritePath=/api/users/(?<segment>.*), /$\{segment}
         
-        # Skill Assessment Service
         - id: skill-assessment-service
           uri: ${SKILL_ASSESSMENT_SERVICE_URL:https://skill-assessment-service.onrender.com}
           predicates:
@@ -30,7 +37,6 @@ spring:
           filters:
             - RewritePath=/api/assessments/(?<segment>.*), /$\{segment}
         
-        # Internship Service
         - id: internship-service
           uri: ${INTERNSHIP_SERVICE_URL:https://internship-service-e9fs.onrender.com}
           predicates:
@@ -38,7 +44,6 @@ spring:
           filters:
             - RewritePath=/api/internships/(?<segment>.*), /$\{segment}
         
-        # Recommendation Service
         - id: recommendation-service
           uri: ${RECOMMENDATION_SERVICE_URL:https://recommendation-service-4m8s.onrender.com}
           predicates:
@@ -46,7 +51,6 @@ spring:
           filters:
             - RewritePath=/api/recommendations/(?<segment>.*), /$\{segment}
         
-        # Notification Service
         - id: notification-service
           uri: ${NOTIFICATION_SERVICE_URL:https://notification-service-wo2h.onrender.com}
           predicates:
@@ -54,7 +58,6 @@ spring:
           filters:
             - RewritePath=/api/notifications/(?<segment>.*), /$\{segment}
       
-      # Global CORS Configuration
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -68,16 +71,14 @@ spring:
             allowedHeaders: "*"
             allowCredentials: false
 
-# DISABLE Eureka completely for Render deployment
-# Render free tier services sleep, so Eureka is unreliable
-# We use direct URLs in the routes above instead
+# Fully disable Eureka client
 eureka:
   client:
     enabled: false
     register-with-eureka: false
     fetch-registry: false
 
-# Actuator for Health Monitoring
+# Actuator Health
 management:
   endpoints:
     web:
@@ -88,10 +89,9 @@ management:
       show-details: always
   health:
     discovery:
-      enabled: false  # Don't let Eureka affect health status
+      enabled: false
 
 logging:
   level:
     org.springframework.cloud.gateway: INFO
     reactor.netty: WARN
-    com.internship: DEBUG

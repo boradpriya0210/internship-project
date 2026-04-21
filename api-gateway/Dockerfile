@@ -9,5 +9,6 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
+# Render dynamically assigns PORT (default 10000), so we don't hardcode
+EXPOSE ${PORT:-10000}
 ENTRYPOINT ["java", "-jar", "app.jar"]
