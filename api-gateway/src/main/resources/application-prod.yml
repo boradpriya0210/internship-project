@@ -7,79 +7,58 @@ spring:
   
   cloud:
     gateway:
-      # Discovery locator for Eureka
+      # DISABLE discovery locator - we use direct URLs on Render, not Eureka
       discovery:
         locator:
-          enabled: ${EUREKA_ENABLED:true}
-          lower-case-service-id: true
+          enabled: false
       
-      # Explicit routes with fallback support
+      # Routes using DIRECT Render URLs instead of lb:// (Eureka not needed)
       routes:
         # User Service
         - id: user-service
-          uri: ${USER_SERVICE_URL:lb://user-service}
+          uri: ${USER_SERVICE_URL:https://user-service-9jg7.onrender.com}
           predicates:
             - Path=/api/users/**
           filters:
             - RewritePath=/api/users/(?<segment>.*), /$\{segment}
-            - name: CircuitBreaker
-              args:
-                name: userServiceCircuitBreaker
-                fallbackUri: forward:/fallback/user-service
         
         # Skill Assessment Service
         - id: skill-assessment-service
-          uri: ${SKILL_ASSESSMENT_SERVICE_URL:lb://skill-assessment-service}
+          uri: ${SKILL_ASSESSMENT_SERVICE_URL:https://skill-assessment-service.onrender.com}
           predicates:
             - Path=/api/assessments/**
           filters:
             - RewritePath=/api/assessments/(?<segment>.*), /$\{segment}
-            - name: CircuitBreaker
-              args:
-                name: assessmentServiceCircuitBreaker
-                fallbackUri: forward:/fallback/skill-assessment-service
         
         # Internship Service
         - id: internship-service
-          uri: ${INTERNSHIP_SERVICE_URL:lb://internship-service}
+          uri: ${INTERNSHIP_SERVICE_URL:https://internship-service-e9fs.onrender.com}
           predicates:
             - Path=/api/internships/**
           filters:
             - RewritePath=/api/internships/(?<segment>.*), /$\{segment}
-            - name: CircuitBreaker
-              args:
-                name: internshipServiceCircuitBreaker
-                fallbackUri: forward:/fallback/internship-service
         
         # Recommendation Service
         - id: recommendation-service
-          uri: ${RECOMMENDATION_SERVICE_URL:lb://recommendation-service}
+          uri: ${RECOMMENDATION_SERVICE_URL:https://recommendation-service-4m8s.onrender.com}
           predicates:
             - Path=/api/recommendations/**
           filters:
             - RewritePath=/api/recommendations/(?<segment>.*), /$\{segment}
-            - name: CircuitBreaker
-              args:
-                name: recommendationServiceCircuitBreaker
-                fallbackUri: forward:/fallback/recommendation-service
         
         # Notification Service
         - id: notification-service
-          uri: ${NOTIFICATION_SERVICE_URL:lb://notification-service}
+          uri: ${NOTIFICATION_SERVICE_URL:https://notification-service-wo2h.onrender.com}
           predicates:
             - Path=/api/notifications/**
           filters:
             - RewritePath=/api/notifications/(?<segment>.*), /$\{segment}
-            - name: CircuitBreaker
-              args:
-                name: notificationServiceCircuitBreaker
-                fallbackUri: forward:/fallback/notification-service
       
       # Global CORS Configuration
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "${CORS_ALLOWED_ORIGINS:*}"
+            allowedOrigins: "*"
             allowedMethods:
               - GET
               - POST
@@ -89,69 +68,27 @@ spring:
             allowedHeaders: "*"
             allowCredentials: false
 
-# Eureka Client Configuration with fallback
+# DISABLE Eureka completely for Render deployment
+# Render free tier services sleep, so Eureka is unreliable
+# We use direct URLs in the routes above instead
 eureka:
   client:
-    # Make Eureka optional for cloud deployment
-    enabled: ${EUREKA_ENABLED:true}
-    service-url:
-      # Use HTTPS for Render cloud deployment - CRITICAL!
-      defaultZone: https://eureka-server-6n60.onrender.com/eureka/
-    fetch-registry: true
-    register-with-eureka: false  # API Gateway doesn't need to register
-    # Resilience settings
-    registry-fetch-interval-seconds: 30
-    instance-info-replication-interval-seconds: 30
-    initial-instance-info-replication-interval-seconds: 40
-  instance:
-    prefer-ip-address: false    # Use hostname for Render
-    hostname: ${RENDER_EXTERNAL_HOSTNAME:localhost}      # Render sets this automatically
-    instance-id: ${spring.application.name}:${server.port}:${random.uuid}
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 30
-    non-secure-port-enabled: false
-    secure-port-enabled: true
-    secure-port: 443
-    health-check-url-path: /actuator/health
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
 
-# Resilience4j Circuit Breaker for fallback
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        minimumNumberOfCalls: 5
-        permittedNumberOfCallsInHalfOpenState: 3
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5s
-        failureRateThreshold: 50
-        eventConsumerBufferSize: 10
-    instances:
-      userServiceCircuitBreaker:
-        baseConfig: default
-      assessmentServiceCircuitBreaker:
-        baseConfig: default
-      internshipServiceCircuitBreaker:
-        baseConfig: default
-      recommendationServiceCircuitBreaker:
-        baseConfig: default
-      notificationServiceCircuitBreaker:
-        baseConfig: default
-
-# Actuator for monitoring
+# Actuator for Health Monitoring
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway,metrics
+        include: health,info,gateway
   endpoint:
     health:
       show-details: always
-  metrics:
-    export:
-      simple:
-        enabled: true
+  health:
+    discovery:
+      enabled: false  # Don't let Eureka affect health status
 
 logging:
   level:

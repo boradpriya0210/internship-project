@@ -147,7 +147,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
-  # 7. API Gateway (Entry Point)
+  # 7. API Gateway (Entry Point) - Uses direct URLs, NO Eureka dependency
   - type: web
     name: api-gateway
     env: docker
@@ -157,10 +157,19 @@ services:
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
-        value: "8080"
+        value: "10000"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
-      - key: EUREKA_SERVER_URL
-        value: https://eureka-server-6n60.onrender.com/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      # Direct service URLs (bypasses Eureka completely)
+      - key: USER_SERVICE_URL
+        value: https://user-service-9jg7.onrender.com
+      - key: SKILL_ASSESSMENT_SERVICE_URL
+        value: https://skill-assessment-service.onrender.com
+      - key: INTERNSHIP_SERVICE_URL
+        value: https://internship-service-e9fs.onrender.com
+      - key: RECOMMENDATION_SERVICE_URL
+        value: https://recommendation-service-4m8s.onrender.com
+      - key: NOTIFICATION_SERVICE_URL
+        value: https://notification-service-wo2h.onrender.com

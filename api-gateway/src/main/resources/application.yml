@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -87,6 +87,9 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    discovery:
+      enabled: false  # Disable Eureka health check so deployment doesn't fail if Eureka is asleep
 
 logging:
   level:
