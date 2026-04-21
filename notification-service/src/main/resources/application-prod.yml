@@ -11,7 +11,7 @@ eureka:
     enabled: ${EUREKA_ENABLED:true}
     service-url:
       # Use HTTPS for Render cloud deployment - CRITICAL!
-      defaultZone: ${EUREKA_SERVER_URL:https://eureka-server-6n60.onrender.com/eureka/}
+      defaultZone: https://eureka-server-6n60.onrender.com/eureka/
     fetch-registry: false
     register-with-eureka: ${EUREKA_ENABLED:true}
     registry-fetch-interval-seconds: 30

@@ -96,7 +96,7 @@ eureka:
     enabled: ${EUREKA_ENABLED:true}
     service-url:
       # Use HTTPS for Render cloud deployment - CRITICAL!
-      defaultZone: ${EUREKA_SERVER_URL:https://eureka-server-6n60.onrender.com/eureka/}
+      defaultZone: https://eureka-server-6n60.onrender.com/eureka/
     fetch-registry: true
     register-with-eureka: false  # API Gateway doesn't need to register
     # Resilience settings
