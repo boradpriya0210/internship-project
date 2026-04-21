@@ -1,0 +1,67 @@
+server:
+  port: ${PORT:8081}
+
+spring:
+  application:
+    name: user-service
+  
+  # MySQL Database Configuration
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/user_service_db?createDatabaseIfNotExist=true&useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:5}
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: false
+
+# Eureka Client Configuration
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      # Use HTTPS for Render cloud deployment - CRITICAL!
+      defaultZone: ${EUREKA_SERVER_URL:https://eureka-server-6n60.onrender.com/eureka/}
+    fetch-registry: false
+    register-with-eureka: ${EUREKA_ENABLED:true}
+    registry-fetch-interval-seconds: 30
+    instance-info-replication-interval-seconds: 30
+  instance:
+    prefer-ip-address: false    # Use hostname for Render
+    hostname: ${RENDER_EXTERNAL_HOSTNAME:localhost}      # Render sets this automatically
+    instance-id: ${spring.application.name}:${server.port}:${random.uuid}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    secure-port: 443
+    health-check-url-path: /actuator/health
+
+# Actuator for monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.internship: INFO
+    org.hibernate: WARN
+    org.springframework.web: INFO

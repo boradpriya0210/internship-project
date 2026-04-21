@@ -6,13 +6,20 @@ services:
     dockerContext: ./eureka-server
     dockerfilePath: ./eureka-server/Dockerfile
     plan: free
+    healthCheckPath: /actuator/health
     envVars:
       - key: PORT
         value: "8761"
       - key: JAVA_TOOL_OPTIONS
-        value: "-Xmx256m -Xss512k"
+        value: "-Xmx512m -Xss512k -XX:+UseG1GC"
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: EUREKA_HOSTNAME
+        value: eureka-server-6n60.onrender.com  # Replace with your actual Render domain
+      - key: EUREKA_IP_ADDRESS
+        value: ""  # Will auto-detect IP
+      - key: SERVER_SERVLET_CONTEXT_PATH
+        value: /
 
   # 2. User Service
   - type: web
@@ -26,14 +33,11 @@ services:
       - key: PORT
         value: "8081"
       - key: JAVA_TOOL_OPTIONS
-        value: "-Xmx256m -Xss512k"
-      - key: EUREKA_HOSTPORT
-        fromService:
-          name: eureka-server
-          type: web
-          property: hostport
+        value: "-Xmx512m -Xss512k -XX:+UseG1GC"
+      - key: EUREKA_ENABLED
+        value: "true"
       - key: EUREKA_SERVER_URL
-        value: http://${EUREKA_HOSTPORT}/eureka/
+        value: https://eureka-server-6n60.onrender.com/eureka/  # Replace with your Eureka URL
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/user_service_db
       - key: DATABASE_USERNAME
@@ -42,6 +46,8 @@ services:
         value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: DB_POOL_SIZE
+        value: "10"
 
   # 3. Skill Assessment Service
   - type: web
@@ -55,14 +61,11 @@ services:
       - key: PORT
         value: "8082"
       - key: JAVA_TOOL_OPTIONS
-        value: "-Xmx256m -Xss512k"
-      - key: EUREKA_HOSTPORT
-        fromService:
-          name: eureka-server
-          type: web
-          property: hostport
+        value: "-Xmx256m -Xss512k -XX:+UseG1GC"
+      - key: EUREKA_ENABLED
+        value: "true"
       - key: EUREKA_SERVER_URL
-        value: http://${EUREKA_HOSTPORT}/eureka/
+        value: https://eureka-server-6n60.onrender.com/eureka/  # Replace with your Eureka URL
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/skill_assessment_db
       - key: DATABASE_USERNAME
@@ -71,6 +74,8 @@ services:
         value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: DB_POOL_SIZE
+        value: "10"
 
   # 4. Internship Service
   - type: web
@@ -84,14 +89,11 @@ services:
       - key: PORT
         value: "8083"
       - key: JAVA_TOOL_OPTIONS
-        value: "-Xmx256m -Xss512k"
-      - key: EUREKA_HOSTPORT
-        fromService:
-          name: eureka-server
-          type: web
-          property: hostport
+        value: "-Xmx256m -Xss512k -XX:+UseG1GC"
+      - key: EUREKA_ENABLED
+        value: "true"
       - key: EUREKA_SERVER_URL
-        value: http://${EUREKA_HOSTPORT}/eureka/
+        value: https://eureka-server-6n60.onrender.com/eureka/  # Replace with your Eureka URL
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/internship_service_db
       - key: DATABASE_USERNAME
@@ -100,6 +102,8 @@ services:
         value: AVNS_78919TKx8ma86mzMIFd
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: DB_POOL_SIZE
+        value: "10"
 
   # 5. Recommendation Service
   - type: web
@@ -114,13 +118,8 @@ services:
         value: "8084"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
-      - key: EUREKA_HOSTPORT
-        fromService:
-          name: eureka-server
-          type: web
-          property: hostport
       - key: EUREKA_SERVER_URL
-        value: http://${EUREKA_HOSTPORT}/eureka/
+        value: https://eureka-server-6n60.onrender.com/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod
 
@@ -137,13 +136,8 @@ services:
         value: "8085"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
-      - key: EUREKA_HOSTPORT
-        fromService:
-          name: eureka-server
-          type: web
-          property: hostport
       - key: EUREKA_SERVER_URL
-        value: http://${EUREKA_HOSTPORT}/eureka/
+        value: https://eureka-server-6n60.onrender.com/eureka/
       - key: DATABASE_URL
         value: jdbc:mysql://mysql-1de121cc-priyaborad56-f021.i.aivencloud.com:21279/notification_service_db
       - key: DATABASE_USERNAME
@@ -166,12 +160,7 @@ services:
         value: "8080"
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx256m -Xss512k"
-      - key: EUREKA_HOSTPORT
-        fromService:
-          name: eureka-server
-          type: web
-          property: hostport
       - key: EUREKA_SERVER_URL
-        value: http://${EUREKA_HOSTPORT}/eureka/
+        value: https://eureka-server-6n60.onrender.com/eureka/
       - key: SPRING_PROFILES_ACTIVE
         value: prod

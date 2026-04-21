@@ -1,0 +1,57 @@
+server:
+  port: ${PORT:8761}
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  instance:
+    # For Render Cloud - use EUREKA_HOSTNAME to set public domain
+    hostname: ${EUREKA_HOSTNAME:eureka-server-6n60.onrender.com}
+    prefer-ip-address: false  # Use hostname, not IP
+    instance-id: ${spring.application.name}:${EUREKA_HOSTNAME:eureka-server-6n60.onrender.com}:${server.port}
+    # Public URLs for cloud deployment - clients will use these
+    home-page-url: https://${EUREKA_HOSTNAME:eureka-server-6n60.onrender.com}/
+    status-page-url: https://${EUREKA_HOSTNAME:eureka-server-6n60.onrender.com}/actuator/info
+    health-check-url: https://${EUREKA_HOSTNAME:eureka-server-6n60.onrender.com}/actuator/health
+    health-check-url-path: /actuator/health
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    secure-port: 443
+  
+  client:
+    # This is a standalone Eureka server
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+  
+  server:
+    # Production settings
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000
+    renewal-percent-threshold: 0.85
+    expected-client-renewal-interval-seconds: 30
+    # Allow larger initial heartbeat threshold for cloud deployments
+    max-idle-time-in-minutes-status-repeating-sync-interval: 30
+
+# Actuator for monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      simple:
+        enabled: true
+
+logging:
+  level:
+    com.netflix.eureka: WARN
+    com.netflix.discovery: WARN
+    root: INFO
